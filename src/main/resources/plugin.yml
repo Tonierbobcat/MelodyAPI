@@ -1,0 +1,4 @@
+name: MelodyAPI
+version: '${project.version}'
+main: com.loficostudios.melodyapi.MelodyAPI
+api-version: '1.20'
