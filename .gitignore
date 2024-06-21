@@ -28,3 +28,5 @@ target/
 
 # Run directory
 /run/
+
+dependency-reduced-pom.xml
