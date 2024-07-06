@@ -9,4 +9,10 @@
 		</repository>
 	</repositories>
 ```
-
+```
+	<dependency>
+	    <groupId>com.github.Tonierbobcat</groupId>
+	    <artifactId>MelodyAPI</artifactId>
+	    <version>master-SNAPSHOT</version>
+	</dependency>
+```
