@@ -1,12 +1,12 @@
 /**
  * @Author Tonierbobcat
  * @Github https://github.com/Tonierbobcat
- * @version SoulBoundSMPCore
- * @since 6/12/2024
+ * @version MelodyApi
  */
 
 package com.loficostudios.melodyapi.utils;
 
+import com.loficostudios.melodyapi.MelodyAPI;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 
@@ -164,6 +164,8 @@ public class SimpleColor {
 					b.append(altColorChar);
 					b.append("##");
 				}
+
+		//MelodyAPI.getInstance().getServer().getLogger().info(b.toString());
 
 		return b.toString();
 	}
