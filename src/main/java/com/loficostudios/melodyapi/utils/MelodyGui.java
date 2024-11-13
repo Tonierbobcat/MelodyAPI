@@ -4,47 +4,75 @@
  * @version MelodyApi
  */
 
+
+
 package com.loficostudios.melodyapi.utils;
 
 import com.loficostudios.melodyapi.MelodyAPI;
-import com.loficostudios.melodyapi.icon.GuiIcon;
+import com.loficostudios.melodyapi.melodygui.GuiIcon;
+import com.loficostudios.melodyapi.melodygui.GuiManager;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class MelodyGui implements InventoryHolder {
 
-    private final MelodyAPI plugin = MelodyAPI.getInstance();
+    protected static final String DEFAULT_MENU_TITLE = "&#C608FBM&#C322FBe&#C03CFBl&#BE56FCo&#BB70FCd&#B88BFCy &#B3BFFDG&#B0D9FDU&#ADF3FDI";
 
-    @Getter
-    @Setter
+
+    private final MelodyAPI plugin = MelodyAPI.getInstance();
+    private final GuiManager guiManager = plugin.getGuiManager();
+
     private Inventory gui;
 
-    @Getter
-    private int size;
+    @NotNull
+    @Override
+    public Inventory getInventory() {
+        return this.gui;
+    }
 
-    @Getter
-    private String title; //Melody GUI
+    //@Getter
+    //private int size;
+
+    protected abstract @NotNull Integer getSize();
+
+    protected abstract @Nullable String getTitle();
 
     @Getter
     private Map<Integer, GuiIcon> icons = new HashMap<>();
 
-    public MelodyGui() {
-        this.size = 9;
-        this.title = "&#C608FBM&#C322FBe&#C03CFBl&#BE56FCo&#BB70FCd&#B88BFCy &#B3BFFDG&#B0D9FDU&#ADF3FDI &lThis is a bold message";
-
-        create();
-    }
-
     private void create() {
-        this.gui = plugin.getServer().createInventory(this, this.size, SimpleColor.deserialize(this.title));
+        String title = getTitle();
+        int size = validateSize(getSize());
+
+        /*try {
+            size = validateSize(getSize());
+        } catch (Exception e) {
+            String pluginName = "[" + plugin.getName() + "]";
+            String msg = pluginName + " Error Validating Size: " + Arrays.toString(e.getStackTrace());
+            Bukkit.getLogger().log(Level.SEVERE, msg);
+
+            size = 9;
+
+        }*/
+
+        this.gui = plugin.getServer().createInventory(this,
+                size,
+                SimpleColor.deserialize(title != null && !title.isEmpty() ? title : DEFAULT_MENU_TITLE));
+
+
+
+        this.icons.forEach((slot, icon) -> {
+
+            //Bukkit.getLogger().log(Level.SEVERE, "setting slot " + slot);
+
+            this.gui.setItem(slot, icon.getIcon());
+        });
     }
 
     public final void fill(@NotNull GuiIcon icon, int start, int end, Boolean replaceExisting) {
@@ -55,19 +83,13 @@ public abstract class MelodyGui implements InventoryHolder {
             }
 
             this.icons.put(i, icon);
-            this.gui.setItem(i, icon.getIcon());
         }
     }
 
     public void open(@NotNull Player player) {
         create();
 
-        //create(this.size, this.title);
-        MelodyAPI.getInstance().getGuiManager().setGui(player, this);
-        this.icons.forEach((slot, icon) -> {
-            this.gui.setItem(slot, icon.getIcon());
-        });
-
+        plugin.getGuiManager().setGui(player, this);
         player.openInventory(this.gui);
     }
 
@@ -76,45 +98,40 @@ public abstract class MelodyGui implements InventoryHolder {
     }
 
     public void refreshGui(@NotNull Player player, @NotNull  MelodyGui gui) {
-        this.gui.clear();
-        //gui = new
         gui.open(player);
-
     }
 
-    public void addIcon(@NotNull Integer slot, @NotNull GuiIcon icon) {
+    public void setSlot(@NotNull Integer slot, @NotNull GuiIcon icon) {
+
+        /*if ()
+
+        try {
+            this.gui.setItem(slot, icon.getIcon());
+        } catch (Exception e) {
+            String pluginName = "[" + plugin.getName() + "]";
+            String msg = pluginName + " Error adding icon to gui GUICON_ID: " + icon.getId() + " " + e.getMessage();
+            Bukkit.getLogger().log(Level.SEVERE, msg);
+            return;
+        }*/
+
+
+
         this.icons.put(slot, icon);
-        this.gui.setItem(slot, icon.getIcon());
     }
 
     public GuiIcon getIcon(@NotNull Integer slot) {
         return this.icons.get(slot);
     }
 
-    protected void setTitle(@NotNull String title) {
-        this.title = title;
-    }
+    private int validateSize(int size) {
+        final Set<Integer> allowedInventorySize = new HashSet<>(Set.of(
+            9, 18, 27, 36, 45, 54
+        ));
 
-    protected void setSize(@NotNull Integer size) {
-        if (size < 9) {
-            this.size = 9;
-        } else if (size < 18) {
-            this.size = 18;
-        } else if (size < 27) {
-            this.size = 27;
-        } else if (size < 36) {
-            this.size = 36;
-        } else if (size < 45) {
-            this.size = 45;
-        } else if (size < 54) {
-            this.size = 54;
-        } else {
-            this.size = 54;
-        }
-    }
-
-    public void setSlot(@NotNull Integer slotID, @NotNull ItemStack item) {
-        this.gui.setItem(slotID, item);
+        return allowedInventorySize.stream()
+                .filter(allowedSize -> allowedSize >= size)
+                .min(Integer::compareTo)
+                .orElse(9);
     }
 }
 

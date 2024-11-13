@@ -8,34 +8,27 @@ package com.loficostudios.melodyapi.utils;
 
 import com.loficostudios.melodyapi.MelodyAPI;
 import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
 
 public class Common {
-    public static String formatMaterialName(String materialName) {
+    public static String formatMaterial(@NotNull Material material) {
+        String rawName = material.toString();
 
-        //String materialName = material.name();
+        String[] words = rawName.split("_");
 
-        // Split the material name by underscores
-        String[] words = materialName.split("_");
-
-        // Capitalize each word
         for (int i = 0; i < words.length; i++) {
-            words[i] = capitalize(words[i]);
+            String raw = words[i];
+
+            if (!raw.isEmpty()) {
+                char firstLetter = raw.charAt(0);
+                words[i] =  Character.toUpperCase(firstLetter) + raw.substring(1).toLowerCase();
+            }
         }
 
-        // Join the words with a space
         return String.join(" ", words);
     }
 
     public static void broadcast(String message) {
         MelodyAPI.getInstance().getServer().broadcastMessage(message);
-    }
-
-    private static String capitalize(String word) {
-        // Capitalize the first letter of the word
-        if (!word.isEmpty()) {
-            return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
-        } else {
-            return word; // Return empty or single-character strings as-is
-        }
     }
 }

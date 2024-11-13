@@ -4,11 +4,10 @@
  * @version MelodyApi
  */
 
-package com.loficostudios.melodyapi.icon;
+package com.loficostudios.melodyapi.melodygui;
 
 import com.loficostudios.melodyapi.MelodyAPI;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
@@ -25,26 +24,31 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class GuiIcon {
+
+    public enum IconType {
+        MUTABLE,
+        IMMUTABLE
+    }
+
     private final MelodyAPI plugin = MelodyAPI.getInstance();
+
     @Getter
     private final ItemStack icon;
 
     @Getter
     private final String id;
 
-    @Setter
+    //@Setter
     @Getter
     private Consumer<InventoryClickEvent> action;
 
-    public GuiIcon(@NotNull Consumer<Player> event, @NotNull ItemStack item, @Nullable String id) {
+    public GuiIcon(@NotNull Consumer<Player> onClick, @NotNull ItemStack item, @Nullable String id) {
         clearKeys(item, id);
 
         this.icon = item;
         this.id = id;
 
-        setAction((clickEvent) -> {
-            event.accept((Player)clickEvent.getWhoClicked());
-        });
+        this.action = (clickEvent) -> onClick.accept((Player)clickEvent.getWhoClicked());
     }
 
     public GuiIcon(@NotNull ItemStack item, @Nullable String id) {
@@ -53,12 +57,7 @@ public class GuiIcon {
         this.icon = item;
 
         this.id = id;
-
     }
-
-    /*
-    * @S
-     */
 
     public boolean getClicked(String id, InventoryClickEvent event, List<InventoryAction> actions) {
         if (event.getCurrentItem() == null) return false;

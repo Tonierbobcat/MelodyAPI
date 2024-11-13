@@ -4,18 +4,26 @@
  * @version MelodyApi
  */
 
-package com.loficostudios.melodyapi.listeners;
+package com.loficostudios.melodyapi.melodygui.listener;
 
-import com.loficostudios.melodyapi.MelodyAPI;
-import com.loficostudios.melodyapi.icon.GuiIcon;
+import com.loficostudios.melodyapi.melodygui.GuiIcon;
+import com.loficostudios.melodyapi.melodygui.GuiManager;
 import com.loficostudios.melodyapi.utils.MelodyGui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 
 public class GuiListener implements Listener {
+
+
+    private final GuiManager guiManager;
+
+    public GuiListener(GuiManager guiManager) {
+        this.guiManager = guiManager;
+    }
 
     @EventHandler
     protected void inventoryHandler(InventoryClickEvent event) {
@@ -25,7 +33,7 @@ public class GuiListener implements Listener {
 
         event.setCancelled(true);
 
-        MelodyGui gui = MelodyAPI.getInstance().getGuiManager().getGui(player);
+        MelodyGui gui = guiManager.getGui(player);
 
         GuiIcon icon = gui.getIcon(event.getRawSlot());
 

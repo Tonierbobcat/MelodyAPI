@@ -6,14 +6,14 @@
 
 package com.loficostudios.melodyapi;
 
-import com.loficostudios.melodyapi.listeners.GuiListener;
-import com.loficostudios.melodyapi.managers.GuiManager;
+import com.loficostudios.melodyapi.melodygui.listener.GuiListener;
+import com.loficostudios.melodyapi.melodygui.GuiManager;
 import lombok.Getter;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
+import java.util.List;
 
-public final class MelodyAPI extends JavaPlugin {
+@SuppressWarnings("LombokGetterMayBeUsed")
+public final class MelodyAPI extends MelodyPlugin<MelodyAPI> {
 
     @Getter
     private static MelodyAPI instance;
@@ -21,21 +21,23 @@ public final class MelodyAPI extends JavaPlugin {
     @Getter
     private final GuiManager guiManager = new GuiManager();
 
+    public MelodyAPI() {
+        instance = this;
+    }
+
     @Override
     public void onEnable() {
-        instance = this;
-
         registerEvents();
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
 
     private void registerEvents() {
-        Arrays.asList(
-                new GuiListener()
+        List.of(
+                new GuiListener(guiManager)
         ).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
     }
 }
