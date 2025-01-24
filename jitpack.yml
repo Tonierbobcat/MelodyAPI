@@ -1,7 +1,5 @@
 jdk:
   - openjdk21
 before_install:
-  - curl -s "https://get.sdkman.io" | bash
-  - source "$HOME/.sdkman/bin/sdkman-init.sh"
-  - sdk install java 21-amazon
-  - sdk use java 21-amazon
+  - sdk install java 21-openjdk
+  - sdk use java 21-openjdk
