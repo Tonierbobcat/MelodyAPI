@@ -33,7 +33,7 @@ public class GuiIcon {
     private final MelodyAPI plugin = MelodyAPI.getInstance();
 
     @Getter
-    private final ItemStack icon;
+    private final ItemStack item;
 
     @Getter
     private final String id;
@@ -45,7 +45,7 @@ public class GuiIcon {
     public GuiIcon(@NotNull Consumer<Player> onClick, @NotNull ItemStack item, @Nullable String id) {
         clearKeys(item, id);
 
-        this.icon = item;
+        this.item = item;
         this.id = id;
 
         this.action = (clickEvent) -> onClick.accept((Player)clickEvent.getWhoClicked());
@@ -54,7 +54,7 @@ public class GuiIcon {
     public GuiIcon(@NotNull ItemStack item, @Nullable String id) {
         if (id != null) clearKeys(item, id);
 
-        this.icon = item;
+        this.item = item;
 
         this.id = id;
     }

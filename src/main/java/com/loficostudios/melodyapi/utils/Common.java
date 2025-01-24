@@ -28,6 +28,7 @@ public class Common {
         return String.join(" ", words);
     }
 
+
     public static void broadcast(String message) {
         MelodyAPI.getInstance().getServer().broadcastMessage(message);
     }

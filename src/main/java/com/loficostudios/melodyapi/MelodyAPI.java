@@ -6,7 +6,6 @@
 
 package com.loficostudios.melodyapi;
 
-import com.loficostudios.melodyapi.melodygui.listener.GuiListener;
 import com.loficostudios.melodyapi.melodygui.GuiManager;
 import lombok.Getter;
 
@@ -37,7 +36,7 @@ public final class MelodyAPI extends MelodyPlugin<MelodyAPI> {
 
     private void registerEvents() {
         List.of(
-                new GuiListener(guiManager)
+                new GuiManager()
         ).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
     }
 }
