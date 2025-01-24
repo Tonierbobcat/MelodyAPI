@@ -12,7 +12,7 @@ public abstract class MelodyPlugin<T extends MelodyPlugin<T>> extends JavaPlugin
 
     @Override
     public void onEnable() {
-        var gui = new GuiManager();
+        var gui = new GuiManager(this);
         Bukkit.getPluginManager().registerEvents(gui, this);
         onStart();
     }

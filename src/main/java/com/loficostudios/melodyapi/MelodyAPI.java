@@ -19,7 +19,7 @@ public final class MelodyAPI extends JavaPlugin {
     private static MelodyAPI instance;
 
     @Getter
-    private final GuiManager guiManager = new GuiManager();
+    private final GuiManager guiManager = new GuiManager(this);
 
     public MelodyAPI() {
         instance = this;
@@ -37,7 +37,7 @@ public final class MelodyAPI extends JavaPlugin {
 
     private void registerEvents() {
         List.of(
-                new GuiManager()
+                new GuiManager(this)
         ).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
     }
 }

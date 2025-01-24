@@ -11,6 +11,7 @@ import com.loficostudios.melodyapi.annotations.Property;
 import com.loficostudios.melodyapi.gui.events.GuiCloseEvent;
 import com.loficostudios.melodyapi.gui.events.GuiIconClickEvent;
 import com.loficostudios.melodyapi.gui.events.GuiOpenEvent;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -29,16 +31,20 @@ public class GuiManager implements Listener {
     @Property
     private static GuiManager instance;
 
+    @Getter
+    private final JavaPlugin plugin;
+
     public static GuiManager instance() {
         return instance;
     }
 
     private final Map<UUID, MelodyGui> playerData = new HashMap<>();
 
-    public GuiManager() {
+    public GuiManager(JavaPlugin plugin) {
         if (instance != null)
             throw new IllegalArgumentException("Instantiating GUIManager instance twice!");
         instance = this;
+        this.plugin = plugin;
     }
 
     public MelodyGui getGui(@NotNull Player player) {

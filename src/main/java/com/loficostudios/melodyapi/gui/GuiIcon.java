@@ -21,16 +21,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class GuiIcon {
 
+    @Deprecated
     public enum IconType {
         MUTABLE,
         IMMUTABLE
     }
-
-    private final MelodyAPI plugin = MelodyAPI.getInstance();
 
     @Getter
     private final ItemStack item;
@@ -42,13 +42,26 @@ public class GuiIcon {
     @Getter
     private Consumer<InventoryClickEvent> action;
 
-    public GuiIcon(@NotNull Consumer<Player> onClick, @NotNull ItemStack item, @Nullable String id) {
+    public GuiIcon( @NotNull ItemStack item, @Nullable String id, @Nullable BiConsumer<Player, GuiIcon> onClick) {
         clearKeys(item, id);
 
         this.item = item;
         this.id = id;
 
-        this.action = (clickEvent) -> onClick.accept((Player)clickEvent.getWhoClicked());
+        if (onClick != null) {
+            this.action = (clickEvent) -> onClick.accept((Player)clickEvent.getWhoClicked(), this);
+        }
+    }
+
+    public GuiIcon( @NotNull ItemStack item, @Nullable String id, @Nullable Consumer<Player> onClick) {
+        clearKeys(item, id);
+
+        this.item = item;
+        this.id = id;
+
+        if (onClick != null) {
+            this.action = (clickEvent) -> onClick.accept((Player)clickEvent.getWhoClicked());
+        }
     }
 
     public GuiIcon(@NotNull ItemStack item, @Nullable String id) {
@@ -66,7 +79,7 @@ public class GuiIcon {
 
         if (clickedButton.getItemMeta() == null) return false;
 
-        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(getKey(plugin), PersistentDataType.STRING);
+        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(getKey(GuiManager.instance().getPlugin()), PersistentDataType.STRING);
 
 
         for (InventoryAction action : actions) {
@@ -85,7 +98,7 @@ public class GuiIcon {
 
         if (clickedButton.getItemMeta() == null) return false;
 
-        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(getKey(plugin), PersistentDataType.STRING);
+        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(getKey(GuiManager.instance().getPlugin()), PersistentDataType.STRING);
 
         return id.equals(clickedButtonID);
     }
@@ -99,7 +112,7 @@ public class GuiIcon {
                 container.remove(key);
             }
 
-            itemMeta.getPersistentDataContainer().set(getKey(plugin),
+            itemMeta.getPersistentDataContainer().set(getKey(GuiManager.instance().getPlugin()),
                     PersistentDataType.STRING, buttonId);
 
             item.setItemMeta(itemMeta);
