@@ -1,3 +1,5 @@
+jdk:
+  - openjdk21
 before_install:
   - sdk install java 21-amazon
   - sdk use java 21-amazon
