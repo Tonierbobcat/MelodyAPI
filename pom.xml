@@ -9,13 +9,21 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Melody</name>
+  <name>MelodyAPI</name>
 
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <kotlin.version>1.9.23</kotlin.version>
   </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/tonierbobcat/melodyapi</url>
+        </repository>
+    </distributionManagement>
 
   <build>
     <plugins>
@@ -62,6 +70,7 @@
         <filtering>true</filtering>
       </resource>
     </resources>
+
   </build>
 
   <repositories>
