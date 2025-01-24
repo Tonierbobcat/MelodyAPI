@@ -12,9 +12,10 @@
 	</repositories>
 ```
 ```xml
-	<dependency>
-	    <groupId>com.github.Tonierbobcat</groupId>
-	    <artifactId>MelodyAPI</artifactId>
-	    <version>0.1.0</version>
-	</dependency>
+        <dependency>
+            <groupId>com.github.Tonierbobcat</groupId>
+            <artifactId>MelodyAPI</artifactId>
+            <version>0.1.2</version>
+            <scope>compile</scope>
+        </dependency>
 ```
