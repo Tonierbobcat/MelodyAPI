@@ -5,16 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
-@Deprecated
 @ApiStatus.ScheduledForRemoval(inVersion = "1.0")
+@Deprecated
 public abstract class MelodyPlugin<T extends MelodyPlugin<T>> extends JavaPlugin {
 
 //    @Getter
 //    private final ConfigManager<T> configManager = new ConfigManager<>();
-
     public MelodyPlugin() {
     }
 
