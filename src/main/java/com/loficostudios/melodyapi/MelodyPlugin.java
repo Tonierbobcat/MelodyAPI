@@ -4,10 +4,12 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.logging.Level;
 
-@SuppressWarnings("unused")
+@Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0")
 public abstract class MelodyPlugin<T extends MelodyPlugin<T>> extends JavaPlugin {
 
 //    @Getter

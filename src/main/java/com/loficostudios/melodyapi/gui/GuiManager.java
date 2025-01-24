@@ -4,12 +4,13 @@
  * @version MelodyApi
  */
 
-package com.loficostudios.melodyapi.melodygui;
+package com.loficostudios.melodyapi.gui;
 
 
 import com.loficostudios.melodyapi.annotations.Property;
-import com.loficostudios.melodyapi.melodygui.events.GuiIconClickEvent;
-import com.loficostudios.melodyapi.melodygui.events.GuiOpenEvent;
+import com.loficostudios.melodyapi.gui.events.GuiCloseEvent;
+import com.loficostudios.melodyapi.gui.events.GuiIconClickEvent;
+import com.loficostudios.melodyapi.gui.events.GuiOpenEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -72,9 +73,13 @@ public class GuiManager implements Listener {
 
         if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
 
-//        var e
-//
-//        Bukkit.getPluginManager().callEvent(new GuiIconClickEvent(player, gui, icon));
+        var gui = ((MelodyGui) e.getInventory());
+
+        var event = new GuiCloseEvent(player, gui);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            gui.open(player);
+        }
 
         playerData.remove(player.getUniqueId());
     }
@@ -84,10 +89,15 @@ public class GuiManager implements Listener {
         Player player = (Player) e.getPlayer();
 
         if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
+        var gui = ((MelodyGui) e.getInventory());
 
-//        var event = new GuiOpenEvent();
+        var event = new GuiOpenEvent(player, gui);
 //
-//        Bukkit.getPluginManager().callEvent();
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            e.setCancelled(true);
+        }
 
 //        playerData.remove(player.getUniqueId());
     }

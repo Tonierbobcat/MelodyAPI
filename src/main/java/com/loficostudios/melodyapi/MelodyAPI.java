@@ -6,13 +6,14 @@
 
 package com.loficostudios.melodyapi;
 
-import com.loficostudios.melodyapi.melodygui.GuiManager;
+import com.loficostudios.melodyapi.gui.GuiManager;
 import lombok.Getter;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
 @SuppressWarnings("LombokGetterMayBeUsed")
-public final class MelodyAPI extends MelodyPlugin<MelodyAPI> {
+public final class MelodyAPI extends JavaPlugin {
 
     @Getter
     private static MelodyAPI instance;

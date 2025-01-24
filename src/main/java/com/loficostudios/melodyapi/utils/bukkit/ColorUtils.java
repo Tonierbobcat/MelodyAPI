@@ -4,9 +4,8 @@
  * @version MelodyApi
  */
 
-package com.loficostudios.melodyapi.utils;
+package com.loficostudios.melodyapi.utils.bukkit;
 
-import com.loficostudios.melodyapi.MelodyAPI;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UtilityClass
-public class SimpleColor {
+public class ColorUtils {
 
 	public static String deserialize(final String textToTranslate) {
 		final char altColorChar = '&';

@@ -13,6 +13,7 @@ import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,8 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.Objects;
 
+@Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0")
 public class SimpleDocument {
 
     public static YamlDocument create(Plugin plugin, String fileName) {

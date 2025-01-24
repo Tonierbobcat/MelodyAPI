@@ -1,6 +1,7 @@
-package com.loficostudios.melodyapi.melodygui.events;
+package com.loficostudios.melodyapi.gui.events;
 
-import com.loficostudios.melodyapi.melodygui.MelodyGui;
+import com.loficostudios.melodyapi.gui.MelodyGui;
+import com.loficostudios.melodyapi.gui.events.base.GuiEvent;
 import org.bukkit.entity.Player;
 
 public class GuiOpenEvent extends GuiEvent {

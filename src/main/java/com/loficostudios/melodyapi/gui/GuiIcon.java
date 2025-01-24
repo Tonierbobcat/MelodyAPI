@@ -4,7 +4,7 @@
  * @version MelodyApi
  */
 
-package com.loficostudios.melodyapi.melodygui;
+package com.loficostudios.melodyapi.gui;
 
 import com.loficostudios.melodyapi.MelodyAPI;
 import lombok.Getter;

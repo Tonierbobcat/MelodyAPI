@@ -6,7 +6,7 @@
 
 
 
-package com.loficostudios.melodyapi.melodygui;
+package com.loficostudios.melodyapi.gui;
 
 import com.loficostudios.melodyapi.utils.StringUtils;
 import lombok.Getter;
@@ -23,26 +23,18 @@ import java.util.*;
 public abstract class MelodyGui implements InventoryHolder {
     protected static final String DEFAULT_MENU_TITLE = "&#C608FBM&#C322FBe&#C03CFBl&#BE56FCo&#BB70FCd&#B88BFCy &#B3BFFDG&#B0D9FDU&#ADF3FDI";
 
-    private final JavaPlugin plugin;
-
-    @NotNull
-    @Getter
-    private final Inventory gui;
-
     @Getter
     private Map<Integer, GuiIcon> icons = new HashMap<>();
 
-    @Getter
+    private final Inventory inventory;
+    private final String title;
+
     private final int size;
 
-    @Getter
-    private String title;
-
     public MelodyGui(JavaPlugin plugin, int size, String title) {
-        this.plugin = plugin;
         this.size = validateSize(size);
         this.title = title;
-        this.gui = plugin.getServer().createInventory(this,
+        this.inventory = plugin.getServer().createInventory(this,
                 this.size,
                 !StringUtils.isNullOrEmpty(title) ? title : DEFAULT_MENU_TITLE);
     }
@@ -64,7 +56,7 @@ public abstract class MelodyGui implements InventoryHolder {
 
     public void open(@NotNull Player player) {
         GuiManager.instance().setGui(player, this);
-        player.openInventory(this.gui);
+        player.openInventory(this.inventory);
     }
 
     protected void clear() {
@@ -83,7 +75,7 @@ public abstract class MelodyGui implements InventoryHolder {
 
     public void setSlot(@NotNull Integer slot, @NotNull GuiIcon icon) {
         this.icons.put(slot, icon);
-        this.gui.setItem(slot, icon.getItem());
+        this.inventory.setItem(slot, icon.getItem());
     }
 
     public GuiIcon getIcon(@NotNull Integer slot) {
@@ -99,6 +91,20 @@ public abstract class MelodyGui implements InventoryHolder {
                 .filter(allowedSize -> allowedSize >= size)
                 .min(Integer::compareTo)
                 .orElse(9);
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    public @NotNull String getTitle() {
+        return this.title;
+    }
+
+    @NotNull
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
 }
 

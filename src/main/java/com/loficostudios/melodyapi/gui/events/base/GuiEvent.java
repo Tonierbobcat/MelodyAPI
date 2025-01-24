@@ -1,8 +1,7 @@
-package com.loficostudios.melodyapi.melodygui.events;
+package com.loficostudios.melodyapi.gui.events.base;
 
-import com.loficostudios.melodyapi.melodygui.MelodyGui;
+import com.loficostudios.melodyapi.gui.MelodyGui;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
