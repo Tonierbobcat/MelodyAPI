@@ -20,11 +20,11 @@ public abstract class PaginatedGui extends MelodyGui {
     }
 
     public PaginatedGui(JavaPlugin plugin, int size) {
-        super(plugin, size);
+        super(size);
     }
 
     public PaginatedGui(JavaPlugin plugin, int size, String title) {
-        super(plugin, size, title);
+        super(size, title);
     }
 
     abstract void nextPage(Player player);

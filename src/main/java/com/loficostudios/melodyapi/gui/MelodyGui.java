@@ -31,16 +31,19 @@ public abstract class MelodyGui implements InventoryHolder {
 
     private final int size;
 
-    public MelodyGui(JavaPlugin plugin, int size, String title) {
+    public MelodyGui(int size, String title) {
         this.size = validateSize(size);
         this.title = title;
-        this.inventory = plugin.getServer().createInventory(this,
+        this.inventory = GuiManager.instance().getPlugin().getServer().createInventory(this,
                 this.size,
                 !StringUtils.isNullOrEmpty(title) ? title : DEFAULT_MENU_TITLE);
     }
 
-    public MelodyGui(JavaPlugin plugin, int size) {
-        this(plugin, size, null);
+    public MelodyGui(int size) {
+        this(size, null);
+    }
+
+    public void refresh() {
     }
 
     public final void fill(@NotNull GuiIcon icon, int start, int end, Boolean replaceExisting) {

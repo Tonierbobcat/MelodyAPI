@@ -6,18 +6,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class MelodyPlugin<T extends MelodyPlugin<T>> extends JavaPlugin {
 
-    protected GuiManager guiManager;
-
     protected abstract void onStart();
 
     @Override
     public void onEnable() {
-        var gui = new GuiManager(this);
-        Bukkit.getPluginManager().registerEvents(gui, this);
+        Bukkit.getPluginManager().registerEvents(
+                new GuiManager(this),
+                this);
         onStart();
-    }
-
-    public GuiManager getGuiManager() {
-        return guiManager;
     }
 }
