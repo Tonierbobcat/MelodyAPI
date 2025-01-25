@@ -77,33 +77,33 @@ public class GuiManager implements Listener {
     protected void onClose(InventoryCloseEvent e) {
         Player player = (Player) e.getPlayer();
 
-        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
-
-        var gui = ((MelodyGui) e.getInventory());
-
-        var event = new GuiCloseEvent(player, gui);
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) {
-            gui.open(player);
-        }
-
-        playerData.remove(player.getUniqueId());
+//        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
+//
+//        var gui = ((MelodyGui) e.getInventory());
+//
+//        var event = new GuiCloseEvent(player, gui);
+//        Bukkit.getPluginManager().callEvent(event);
+//        if (event.isCancelled()) {
+//            gui.open(player);
+//        }
+//
+//        playerData.remove(player.getUniqueId());
     }
 
     @EventHandler
     protected void onOpen(InventoryOpenEvent e) {
         Player player = (Player) e.getPlayer();
 
-        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
-        var gui = ((MelodyGui) e.getInventory());
-
-        var event = new GuiOpenEvent(player, gui);
+//        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
+//        var gui = ((MelodyGui) e.getInventory());
 //
-        Bukkit.getPluginManager().callEvent(event);
-
-        if (event.isCancelled()) {
-            e.setCancelled(true);
-        }
+//        var event = new GuiOpenEvent(player, gui);
+////
+//        Bukkit.getPluginManager().callEvent(event);
+//
+//        if (event.isCancelled()) {
+//            e.setCancelled(true);
+//        }
 
 //        playerData.remove(player.getUniqueId());
     }
