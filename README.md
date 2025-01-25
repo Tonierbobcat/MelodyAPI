@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.github.Tonierbobcat</groupId>
             <artifactId>MelodyAPI</artifactId>
-            <version>0.1.2</version>
+            <version>0.1.3</version>
         </dependency>
 ```
 Shading Melody into your plugin
@@ -23,7 +23,7 @@ Shading Melody into your plugin
         <dependency>
             <groupId>com.github.Tonierbobcat</groupId>
             <artifactId>MelodyAPI</artifactId>
-            <version>0.1.2</version>
+            <version>0.1.3</version>
             <scope>compile</scope>
         </dependency>
 ```
