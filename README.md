@@ -3,6 +3,7 @@
 
 [![](https://jitpack.io/v/Tonierbobcat/MelodyAPI.svg)](https://jitpack.io/#Tonierbobcat/MelodyAPI)
 
+Maven
 ```xml
 	<repositories>
 		<repository>
