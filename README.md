@@ -1,5 +1,5 @@
 # Melody
- API for LofiCoStudios plugins
+ API for plugins developed by LofiCoffeeStudios 
 
 [![](https://jitpack.io/v/Tonierbobcat/MelodyAPI.svg)](https://jitpack.io/#Tonierbobcat/MelodyAPI)
 
