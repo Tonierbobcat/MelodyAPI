@@ -1,11 +1,20 @@
 # Melody
+
  API for plugins developed by LofiCoffeeStudios 
 
 [![](https://jitpack.io/v/Tonierbobcat/MelodyAPI.svg)](https://jitpack.io/#Tonierbobcat/MelodyAPI)
 
 ___
+
 ![Background GIF](https://github.com/Tonierbobcat/MelodyAPI/blob/main/background-optimize.gif)
-___
+
+---
+
+## Additions
+
+- GUI API
+- Utility classes for existing Bukkit classes
+
 Maven
 ```xml
 	<repositories>
