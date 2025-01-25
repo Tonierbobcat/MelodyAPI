@@ -2,6 +2,7 @@
  API for plugins developed by LofiCoffeeStudios 
 
 [![](https://jitpack.io/v/Tonierbobcat/MelodyAPI.svg)](https://jitpack.io/#Tonierbobcat/MelodyAPI)
+![Background GIF](https://github.com/Tonierbobcat/MelodyAPI/blob/main/background-optimize.gif)
 
 Maven
 ```xml
