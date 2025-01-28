@@ -1,40 +1,45 @@
 /**
  * @Author Tonierbobcat
  * @Github https://github.com/Tonierbobcat
- * @version MelodyApi
+ * @Link https://github.com/Tonierbobcat/MelodyAPI
+ * @version 0.1.3
  */
 
 
 
 package com.loficostudios.melodyapi.gui;
 
+import com.loficostudios.melodyapi.gui.events.GuiCloseEvent;
+import com.loficostudios.melodyapi.gui.events.GuiOpenEvent;
+import com.loficostudios.melodyapi.gui.guiicon.GuiIcon;
+import com.loficostudios.melodyapi.gui.interfaces.IGui;
 import com.loficostudios.melodyapi.utils.StringUtils;
-import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class MelodyGui implements InventoryHolder {
+public abstract class MelodyGui implements IGui {
     protected static final String DEFAULT_MENU_TITLE = "&#C608FBM&#C322FBe&#C03CFBl&#BE56FCo&#BB70FCd&#B88BFCy &#B3BFFDG&#B0D9FDU&#ADF3FDI";
 
-    @Getter
-    private Map<Integer, GuiIcon> icons = new HashMap<>();
+    private Inventory inventory;
+    private final Map<Integer, GuiIcon> displayedIcons = new HashMap<>();
 
-    private final Inventory inventory;
-    private final String title;
-
+    private String title;
     private final int size;
 
     public MelodyGui(int size, String title) {
-        this.size = validateSize(size);
+        this.size = IGui.validateSize(size);
         this.title = title;
-        this.inventory = GuiManager.instance().getPlugin().getServer().createInventory(this,
+        this.inventory = Bukkit.createInventory(this,
                 this.size,
                 !StringUtils.isNullOrEmpty(title) ? title : DEFAULT_MENU_TITLE);
     }
@@ -43,13 +48,10 @@ public abstract class MelodyGui implements InventoryHolder {
         this(size, null);
     }
 
-    public void refresh() {
-    }
-
-    public final void fill(@NotNull GuiIcon icon, int start, int end, Boolean replaceExisting) {
+    public void fill(@NotNull GuiIcon icon, int start, int end, Boolean replaceExisting) {
         for(int i = start; i < end; ++i) {
 
-            if (!replaceExisting && this.icons.containsKey(i)) {
+            if (!replaceExisting && this.displayedIcons.containsKey(i)) {
                 continue; // Skip this iteration if replaceExisting is false and key exists
             }
 
@@ -57,43 +59,57 @@ public abstract class MelodyGui implements InventoryHolder {
         }
     }
 
-    public void open(@NotNull Player player) {
-        GuiManager.instance().setGui(player, this);
-        player.openInventory(this.inventory);
-    }
-
     protected void clear() {
-        if (icons.isEmpty()) return;
+        if (displayedIcons.isEmpty()) return;
 
-        icons.forEach((index, icon) -> {
+        displayedIcons.forEach((index, icon) -> {
             this.getInventory().setItem(index, new ItemStack(Material.AIR));
         });
 
-        icons.clear();
+        displayedIcons.clear();
     }
 
-    public void close(@NotNull Player player) {
+    public boolean open(@NotNull Player player) {
+        var event = new GuiOpenEvent(player, this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled())
+            return false;
+        GuiManager.instance().setGui(player, this);
+        player.openInventory(this.inventory);
+        return true;
+    }
+
+    public boolean close(@NotNull Player player) {
+        var event = new GuiCloseEvent(player, this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled())
+            return false;
         player.closeInventory();
+        return true;
     }
 
-    public void setSlot(@NotNull Integer slot, @NotNull GuiIcon icon) {
-        this.icons.put(slot, icon);
+    public void refresh() {
+    }
+
+    public Collection<GuiIcon> getDisplayedIcons() {
+        return new ArrayList<>(this.displayedIcons.values());
+    }
+
+    public GuiIcon getIcon(int slot) {
+        return this.displayedIcons.get(slot);
+    }
+
+    @Override
+    public boolean setSlot(int slot, ItemStack item) {
+        setSlot(slot, new GuiIcon(item, item.getType().name().toLowerCase() + System.currentTimeMillis()));
+        return true;
+    }
+
+    @Override
+    public boolean setSlot(int slot, @NotNull GuiIcon icon) {
+        this.displayedIcons.put(slot, icon);
         this.inventory.setItem(slot, icon.getItem());
-    }
-
-    public GuiIcon getIcon(@NotNull Integer slot) {
-        return this.icons.get(slot);
-    }
-
-    private int validateSize(int size) {
-        final Set<Integer> allowedInventorySize = new HashSet<>(Set.of(
-                9, 18, 27, 36, 45, 54
-        ));
-
-        return allowedInventorySize.stream()
-                .filter(allowedSize -> allowedSize >= size)
-                .min(Integer::compareTo)
-                .orElse(9);
+        return true;
     }
 
     public int getSize() {
@@ -104,11 +120,26 @@ public abstract class MelodyGui implements InventoryHolder {
         return this.title;
     }
 
+    public void setTitle(@NotNull String text) {
+        var contents = inventory.getContents();
+        var viewers = new ArrayList<>(inventory.getViewers());
+        for (HumanEntity viewer : viewers) {
+            viewer.closeInventory();
+        }
+        inventory = Bukkit.createInventory(this, size, text);
+        for (HumanEntity viewer : viewers) {
+            viewer.openInventory(this.inventory);
+        }
+        inventory.setContents(contents);
+    }
+
     @NotNull
     @Override
     public Inventory getInventory() {
         return inventory;
     }
+
+
 }
 
 

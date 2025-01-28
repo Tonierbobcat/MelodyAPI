@@ -1,7 +1,8 @@
 /**
  * @Author Tonierbobcat
  * @Github https://github.com/Tonierbobcat
- * @version MelodyApi
+ * @Link https://github.com/Tonierbobcat/MelodyAPI
+ * @version 0.1.3
  */
 
 package com.loficostudios.melodyapi.utils.bukkit;

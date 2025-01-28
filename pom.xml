@@ -6,7 +6,7 @@
 
     <groupId>com.loficostudios</groupId>
     <artifactId>MelodyApi</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.4</version>
     <packaging>jar</packaging>
 
     <name>MelodyAPI</name>
@@ -14,7 +14,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.9.23</kotlin.version>
+        <kotlin.version>2.1.0</kotlin.version>
     </properties>
 
     <repositories>
@@ -55,6 +55,7 @@
             <version>26.0.1</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
     <developers>
@@ -153,6 +154,17 @@
                         <phase>compile</phase>
                         <goals>
                             <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
                         </goals>
                     </execution>
                 </executions>

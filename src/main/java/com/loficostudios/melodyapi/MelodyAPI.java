@@ -14,30 +14,12 @@ import java.util.List;
 
 @SuppressWarnings("LombokGetterMayBeUsed")
 public final class MelodyAPI extends JavaPlugin {
-
-    @Getter
-    private static MelodyAPI instance;
-
-    @Getter
-    private final GuiManager guiManager = new GuiManager(this);
-
-    public MelodyAPI() {
-        instance = this;
-    }
-
     @Override
     public void onEnable() {
-        registerEvents();
     }
 
     @Override
     public void onDisable() {
 
-    }
-
-    private void registerEvents() {
-        List.of(
-                new GuiManager(this)
-        ).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
     }
 }

@@ -1,26 +1,24 @@
 /**
  * @Author Tonierbobcat
  * @Github https://github.com/Tonierbobcat
- * @version MelodyApi
+ * @Link https://github.com/Tonierbobcat/MelodyAPI
+ * @version 0.1.3
  */
 
 package com.loficostudios.melodyapi.gui;
 
 
-import com.loficostudios.melodyapi.annotations.Property;
-import com.loficostudios.melodyapi.gui.events.GuiCloseEvent;
 import com.loficostudios.melodyapi.gui.events.GuiIconClickEvent;
-import com.loficostudios.melodyapi.gui.events.GuiOpenEvent;
+import com.loficostudios.melodyapi.gui.interfaces.IGui;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +26,6 @@ import java.util.UUID;
 
 public class GuiManager implements Listener {
 
-    @Property
     private static GuiManager instance;
 
     @Getter
@@ -38,7 +35,7 @@ public class GuiManager implements Listener {
         return instance;
     }
 
-    private final Map<UUID, MelodyGui> playerData = new HashMap<>();
+    private final Map<UUID, IGui> openedMenus = new HashMap<>();
 
     public GuiManager(JavaPlugin plugin) {
         if (instance != null)
@@ -47,64 +44,63 @@ public class GuiManager implements Listener {
         this.plugin = plugin;
     }
 
-    public MelodyGui getGui(@NotNull Player player) {
-        return this.playerData.get(player.getUniqueId());
+    public IGui getGui(@NotNull Player player) {
+        return this.openedMenus.get(player.getUniqueId());
     }
 
-    public void setGui(@NotNull Player player, @NotNull MelodyGui gui) {
-        this.playerData.put(player.getUniqueId(), gui);
+    public void setGui(@NotNull Player player, @Nullable IGui gui) {
+        UUID uuid = player.getUniqueId();
+        if (gui == null && openedMenus.containsKey(uuid))
+            this.openedMenus.remove(uuid);
+        this.openedMenus.put(uuid, gui);
     }
 
     @EventHandler
     protected void onClick(InventoryClickEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+
         Player player = (Player) e.getWhoClicked();
 
-        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
+        if (!(e.getInventory().getHolder() instanceof IGui)) return;
+
+        IGui gui = getGui(player);
+
+        var slot = e.getRawSlot();
+
+        if (gui instanceof MutableGui) {
+//            Debug.log("gui is mutable");
+            if (((MutableGui) gui).getMutableSlots().contains(slot)) {
+//                Debug.log("clicked on item is mutable");
+                return;
+            }
+            e.setCancelled(true);
+//            Debug.log("clicked on item is not mutable");
+
+            var icon = gui.getIcon(slot);
+
+            if (icon != null && icon.getAction() != null) {
+                var event = new GuiIconClickEvent(player, gui, icon);
+                Bukkit.getPluginManager().callEvent(event);
+                if (!event.isCancelled()) {
+                    icon.getAction().accept(e);
+                }
+            }
+
+            return;
+        }
 
         e.setCancelled(true);
-
-        MelodyGui gui = getGui(player);
-
-        GuiIcon icon = gui.getIcon(e.getRawSlot());
+        
+        var icon = gui.getIcon(slot);
 
         if (icon != null && icon.getAction() != null) {
-            icon.getAction().accept(e);
-            Bukkit.getPluginManager().callEvent(new GuiIconClickEvent(player, gui, icon));
+            var event = new GuiIconClickEvent(player, gui, icon);
+            Bukkit.getPluginManager().callEvent(event);
+            if (!event.isCancelled()) {
+                icon.getAction().accept(e);
+            }
         }
-    }
-
-    @EventHandler
-    protected void onClose(InventoryCloseEvent e) {
-        Player player = (Player) e.getPlayer();
-
-//        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
-//
-//        var gui = ((MelodyGui) e.getInventory());
-//
-//        var event = new GuiCloseEvent(player, gui);
-//        Bukkit.getPluginManager().callEvent(event);
-//        if (event.isCancelled()) {
-//            gui.open(player);
-//        }
-//
-//        playerData.remove(player.getUniqueId());
-    }
-
-    @EventHandler
-    protected void onOpen(InventoryOpenEvent e) {
-        Player player = (Player) e.getPlayer();
-
-//        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
-//        var gui = ((MelodyGui) e.getInventory());
-//
-//        var event = new GuiOpenEvent(player, gui);
-////
-//        Bukkit.getPluginManager().callEvent(event);
-//
-//        if (event.isCancelled()) {
-//            e.setCancelled(true);
-//        }
-
-//        playerData.remove(player.getUniqueId());
     }
 }

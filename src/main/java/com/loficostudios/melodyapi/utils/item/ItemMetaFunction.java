@@ -1,4 +1,4 @@
-package com.loficostudios.melodyapi.utils.item.interfaces;
+package com.loficostudios.melodyapi.utils.item;
 
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.ApiStatus;

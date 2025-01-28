@@ -4,9 +4,9 @@
  * @version MelodyApi
  */
 
-package com.loficostudios.melodyapi.gui;
+package com.loficostudios.melodyapi.gui.guiicon;
 
-import com.loficostudios.melodyapi.MelodyAPI;
+import com.loficostudios.melodyapi.gui.GuiManager;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -26,12 +26,6 @@ import java.util.function.Consumer;
 
 public class GuiIcon {
 
-    @Deprecated
-    public enum IconType {
-        MUTABLE,
-        IMMUTABLE
-    }
-
     @Getter
     private final ItemStack item;
 
@@ -42,7 +36,7 @@ public class GuiIcon {
     @Getter
     private Consumer<InventoryClickEvent> action;
 
-    public GuiIcon( @NotNull ItemStack item, @Nullable String id, @Nullable BiConsumer<Player, GuiIcon> onClick) {
+    public GuiIcon(@NotNull ItemStack item, @Nullable String id, @Nullable BiConsumer<Player, GuiIcon> onClick) {
         clearKeys(item, id);
 
         this.item = item;
@@ -53,7 +47,7 @@ public class GuiIcon {
         }
     }
 
-    public GuiIcon( @NotNull ItemStack item, @Nullable String id, @Nullable Consumer<Player> onClick) {
+    public GuiIcon(@NotNull ItemStack item, @Nullable String id, @Nullable Consumer<Player> onClick) {
         clearKeys(item, id);
 
         this.item = item;

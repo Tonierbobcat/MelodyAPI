@@ -7,7 +7,6 @@
 package com.loficostudios.melodyapi.utils.item;
 
 
-import com.loficostudios.melodyapi.utils.item.interfaces.ItemMetaFunction;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Color;
 import org.bukkit.Material;

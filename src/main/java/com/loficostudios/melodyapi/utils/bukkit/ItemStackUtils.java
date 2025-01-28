@@ -1,3 +1,10 @@
+/**
+ * @Author Tonierbobcat
+ * @Github https://github.com/Tonierbobcat
+ * @Link https://github.com/Tonierbobcat/MelodyAPI
+ * @version 0.1.3
+ */
+
 package com.loficostudios.melodyapi.utils.bukkit;
 
 import com.loficostudios.melodyapi.utils.StringUtils;
@@ -9,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 @UtilityClass
 public class ItemStackUtils {
     public static String getDisplayNameOrElseMaterialName(ItemStack item) {
+
         var meta = item.getItemMeta();
 
         if (meta != null && !StringUtils.isNullOrEmpty(meta.getDisplayName()))
@@ -16,7 +24,6 @@ public class ItemStackUtils {
         else
             return getFormattedMaterialName(item.getType());
     }
-
     public static String getFormattedMaterialName(@NotNull Material material) {
         String rawName = material.toString();
 
