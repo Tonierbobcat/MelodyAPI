@@ -28,7 +28,7 @@ Maven
         <dependency>
             <groupId>com.github.Tonierbobcat</groupId>
             <artifactId>MelodyAPI</artifactId>
-            <version>0.1.4</version>
+            <version>0.1.5</version>
         </dependency>
 ```
 Shading Melody into your plugin
@@ -36,7 +36,7 @@ Shading Melody into your plugin
         <dependency>
             <groupId>com.github.Tonierbobcat</groupId>
             <artifactId>MelodyAPI</artifactId>
-            <version>0.1.4</version>
+            <version>0.1.5</version>
             <scope>compile</scope>
         </dependency>
 ```
