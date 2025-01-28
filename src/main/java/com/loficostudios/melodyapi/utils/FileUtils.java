@@ -25,7 +25,7 @@ public class FileUtils {
         return fileName;
     }
 
-    private static String serializeObjectToString(Object object) {
+    public static String serializeObjectToString(Object object) {
         try {
             ByteArrayOutputStream io = new ByteArrayOutputStream();
             BukkitObjectOutputStream outputStream = new BukkitObjectOutputStream(io);
@@ -42,7 +42,7 @@ public class FileUtils {
         }
     }
 
-    private static Object deserializeStringToObject(String string, Class<?> clazz) {
+    public static Object deserializeStringToObject(String string, Class<?> clazz) {
         Logger lgr = Bukkit.getLogger();
 
         byte[] obj = Base64.getDecoder().decode(string);
