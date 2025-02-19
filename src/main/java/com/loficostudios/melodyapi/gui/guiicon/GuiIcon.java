@@ -6,8 +6,8 @@
 
 package com.loficostudios.melodyapi.gui.guiicon;
 
+import com.loficostudios.melodyapi.MelodyAPI;
 import com.loficostudios.melodyapi.gui.GuiManager;
-import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
@@ -26,14 +26,24 @@ import java.util.function.Consumer;
 
 public class GuiIcon {
 
-    @Getter
+    private final NamespacedKey nsk = new NamespacedKey(MelodyAPI.inst(), "melody_icon");
+
     private final ItemStack item;
 
-    @Getter
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Consumer<InventoryClickEvent> getAction() {
+        return action;
+    }
+
     private final String id;
 
-    //@Setter
-    @Getter
     private Consumer<InventoryClickEvent> action;
 
     public GuiIcon(@NotNull ItemStack item, @Nullable String id, @Nullable BiConsumer<Player, GuiIcon> onClick) {
@@ -73,7 +83,7 @@ public class GuiIcon {
 
         if (clickedButton.getItemMeta() == null) return false;
 
-        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(getKey(GuiManager.instance().getPlugin()), PersistentDataType.STRING);
+        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(nsk, PersistentDataType.STRING);
 
 
         for (InventoryAction action : actions) {
@@ -92,7 +102,7 @@ public class GuiIcon {
 
         if (clickedButton.getItemMeta() == null) return false;
 
-        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(getKey(GuiManager.instance().getPlugin()), PersistentDataType.STRING);
+        String clickedButtonID = clickedButton.getItemMeta().getPersistentDataContainer().get(nsk, PersistentDataType.STRING);
 
         return id.equals(clickedButtonID);
     }
@@ -106,14 +116,11 @@ public class GuiIcon {
                 container.remove(key);
             }
 
-            itemMeta.getPersistentDataContainer().set(getKey(GuiManager.instance().getPlugin()),
+            itemMeta.getPersistentDataContainer().set(nsk,
                     PersistentDataType.STRING, buttonId);
 
             item.setItemMeta(itemMeta);
         }
     }
 
-    private NamespacedKey getKey(Plugin plugin) {
-        return new NamespacedKey(plugin, "gui");
-    }
 }

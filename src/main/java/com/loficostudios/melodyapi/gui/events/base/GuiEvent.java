@@ -1,7 +1,7 @@
 package com.loficostudios.melodyapi.gui.events.base;
 
 import com.loficostudios.melodyapi.gui.interfaces.IGui;
-import lombok.Getter;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -12,10 +12,17 @@ public abstract class GuiEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    @Getter
     private final Player player;
-    @Getter
+
     private final IGui gui;
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public IGui getGui() {
+        return gui;
+    }
 
     private boolean cancelled;
 

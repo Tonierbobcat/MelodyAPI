@@ -1,11 +1,10 @@
 package com.loficostudios.melodyapi.utils;
 
-import lombok.experimental.UtilityClass;
+import com.google.common.base.Strings;
 
-@UtilityClass
+@Deprecated
 public class StringUtils {
     public static boolean isNullOrEmpty(String string) {
-
-        return string == null || string.isEmpty();
+        return Strings.isNullOrEmpty(string);
     }
 }

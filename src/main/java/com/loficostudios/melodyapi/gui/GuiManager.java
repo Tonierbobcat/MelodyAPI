@@ -10,7 +10,7 @@ package com.loficostudios.melodyapi.gui;
 
 import com.loficostudios.melodyapi.gui.events.GuiIconClickEvent;
 import com.loficostudios.melodyapi.gui.interfaces.IGui;
-import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,23 +26,7 @@ import java.util.UUID;
 
 public class GuiManager implements Listener {
 
-    private static GuiManager instance;
-
-    @Getter
-    private final JavaPlugin plugin;
-
-    public static GuiManager instance() {
-        return instance;
-    }
-
     private final Map<UUID, IGui> openedMenus = new HashMap<>();
-
-    public GuiManager(JavaPlugin plugin) {
-        if (instance != null)
-            throw new IllegalArgumentException("Instantiating GUIManager instance twice!");
-        instance = this;
-        this.plugin = plugin;
-    }
 
     public IGui getGui(@NotNull Player player) {
         return this.openedMenus.get(player.getUniqueId());

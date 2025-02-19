@@ -7,13 +7,11 @@
 
 package com.loficostudios.melodyapi.utils.bukkit;
 
-import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@UtilityClass
 public class ColorUtils {
 
 	public static String deserialize(final String textToTranslate) {

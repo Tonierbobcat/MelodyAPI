@@ -7,22 +7,30 @@
 package com.loficostudios.melodyapi.file.impl;
 
 import com.loficostudios.melodyapi.file.IFlatFile;
-import lombok.Getter;
-import lombok.SneakyThrows;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Debug;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 
 public class YamlFile implements IFlatFile {
 
-    @Getter
     private FileConfiguration config;
 
-    @Getter
+    public FileConfiguration getConfig() {
+        return config;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
     private File file;
 
     private final String fileName;
@@ -62,14 +70,16 @@ public class YamlFile implements IFlatFile {
         config.set(path, newValue);
     }
 
-    @SneakyThrows
     @Override
     public void create(final JavaPlugin plugin) {
         this.file = new File(plugin.getDataFolder(), fileName);
         if(!file.exists()) {
             file.getParentFile().mkdirs();
             if(plugin.getResource(fileName) == null) {
-                file.createNewFile();
+                try {
+                    file.createNewFile();
+                } catch (IOException ignore) {
+                }
             }else {
                 plugin.saveResource(fileName, false);
             }
@@ -79,11 +89,14 @@ public class YamlFile implements IFlatFile {
 
     }
 
-    @SneakyThrows
     @Override
     public void save() {
-        this.config.save(file);
-        Bukkit.getLogger().info("File saved successfully.");
+        try {
+            this.config.save(file);
+            Bukkit.getLogger().info("[MelodyAPI] File saved successfully");
+        } catch (IOException ignore) {
+            Bukkit.getLogger().log(Level.SEVERE, "[MelodyAPI] Could not save file!");
+        }
     }
 
     @Override

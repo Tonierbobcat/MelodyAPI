@@ -8,12 +8,11 @@
 package com.loficostudios.melodyapi.utils.bukkit;
 
 import com.loficostudios.melodyapi.utils.StringUtils;
-import lombok.experimental.UtilityClass;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-@UtilityClass
 public class ItemStackUtils {
     public static String getDisplayNameOrElseMaterialName(ItemStack item) {
 

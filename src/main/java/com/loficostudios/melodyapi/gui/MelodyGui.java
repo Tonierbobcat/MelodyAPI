@@ -9,6 +9,7 @@
 
 package com.loficostudios.melodyapi.gui;
 
+import com.loficostudios.melodyapi.MelodyAPI;
 import com.loficostudios.melodyapi.gui.events.GuiCloseEvent;
 import com.loficostudios.melodyapi.gui.events.GuiOpenEvent;
 import com.loficostudios.melodyapi.gui.guiicon.GuiIcon;
@@ -74,7 +75,7 @@ public abstract class MelodyGui implements IGui {
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled())
             return false;
-        GuiManager.instance().setGui(player, this);
+        MelodyAPI.inst().getGuiManager().setGui(player, this);
         player.openInventory(this.inventory);
         return true;
     }
