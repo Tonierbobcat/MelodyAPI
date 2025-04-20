@@ -12,10 +12,6 @@ public abstract class GuiEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    private final Player player;
-
-    private final IGui gui;
-
     public Player getPlayer() {
         return player;
     }
@@ -23,6 +19,10 @@ public abstract class GuiEvent extends Event implements Cancellable {
     public IGui getGui() {
         return gui;
     }
+
+    private final Player player;
+
+    private final IGui gui;
 
     private boolean cancelled;
 

@@ -6,7 +6,7 @@
 
     <groupId>com.loficostudios</groupId>
     <artifactId>MelodyApi</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
     <packaging>jar</packaging>
 
     <name>MelodyAPI</name>
@@ -18,6 +18,10 @@
     </properties>
 
     <repositories>
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
         <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -36,10 +40,18 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+            <optional>true</optional>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mojang</groupId>
+                    <artifactId>brigadier</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

@@ -9,13 +9,14 @@ package com.loficostudios.melodyapi.utils.bukkit;
 
 import com.loficostudios.melodyapi.utils.StringUtils;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemStackUtils {
-    public static String getDisplayNameOrElseMaterialName(ItemStack item) {
-
+    @Deprecated
+    public static String getLegacyDisplayNameOrElseMaterialName(ItemStack item) {
         var meta = item.getItemMeta();
 
         if (meta != null && !StringUtils.isNullOrEmpty(meta.getDisplayName()))
@@ -23,20 +24,24 @@ public class ItemStackUtils {
         else
             return getFormattedMaterialName(item.getType());
     }
-    public static String getFormattedMaterialName(@NotNull Material material) {
-        String rawName = material.toString();
 
-        String[] words = rawName.split("_");
-
-        for (int i = 0; i < words.length; i++) {
-            String raw = words[i];
-
-            if (!raw.isEmpty()) {
-                char firstLetter = raw.charAt(0);
-                words[i] =  Character.toUpperCase(firstLetter) + raw.substring(1).toLowerCase();
-            }
+    public static Component getDisplayNameOrElseMaterialName(@NotNull ItemStack item) {
+        var meta = item.getItemMeta();
+        if (meta != null && meta.hasDisplayName()) {
+            return meta.displayName();
+        } else {
+            return Component.text(getFormattedMaterialName(item.getType()));
         }
+    }
 
-        return String.join(" ", words);
+    public static String getFormattedMaterialName(@NotNull Material type) {
+        var builder = new StringBuilder();
+        var words = type.name().toLowerCase().split("_");
+        for (String word : words) {
+            var chars = word.toCharArray();
+            chars[0] = Character.toUpperCase(chars[0]);
+            builder.append(String.valueOf(chars)).append(" ");
+        }
+        return builder.toString().trim();
     }
 }

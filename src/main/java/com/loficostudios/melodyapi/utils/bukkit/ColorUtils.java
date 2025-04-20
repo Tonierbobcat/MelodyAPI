@@ -12,6 +12,7 @@ import org.bukkit.ChatColor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class ColorUtils {
 
 	public static String deserialize(final String textToTranslate) {

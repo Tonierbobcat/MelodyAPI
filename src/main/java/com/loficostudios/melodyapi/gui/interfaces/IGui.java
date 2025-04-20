@@ -1,6 +1,6 @@
 package com.loficostudios.melodyapi.gui.interfaces;
 
-import com.loficostudios.melodyapi.gui.guiicon.GuiIcon;
+import com.loficostudios.melodyapi.gui.icon.GuiIcon;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -53,6 +53,4 @@ public interface IGui extends InventoryHolder {
 
         return new ArrayList<>(perimeterIndexes);
     }
-
-
 }
