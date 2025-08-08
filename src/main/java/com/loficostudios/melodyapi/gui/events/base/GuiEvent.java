@@ -1,7 +1,13 @@
 package com.loficostudios.melodyapi.gui.events.base;
+<<<<<<< Updated upstream
 
 import com.loficostudios.melodyapi.gui.interfaces.IGui;
 
+=======
+
+import com.loficostudios.melodyapi.gui.MelodyGui;
+import lombok.Getter;
+>>>>>>> Stashed changes
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

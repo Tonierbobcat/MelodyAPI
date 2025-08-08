@@ -3,9 +3,18 @@ package com.loficostudios.melodyapi;
 import com.loficostudios.melodyapi.gui.GuiManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+<<<<<<< Updated upstream
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+=======
+import org.jetbrains.annotations.ApiStatus;
+
+import java.util.logging.Level;
+
+@Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0")
+>>>>>>> Stashed changes
 public abstract class MelodyPlugin<T extends MelodyPlugin<T>> extends JavaPlugin {
 
     protected void onStart() {

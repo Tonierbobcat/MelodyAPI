@@ -1,13 +1,18 @@
 /**
  * @Author Tonierbobcat
  * @Github https://github.com/Tonierbobcat
+<<<<<<< Updated upstream
  * @Link https://github.com/Tonierbobcat/MelodyAPI
  * @version 0.1.3
+=======
+ * @version MelodyApi
+>>>>>>> Stashed changes
  */
 
 package com.loficostudios.melodyapi.gui;
 
 
+<<<<<<< Updated upstream
 import com.loficostudios.melodyapi.MelodyPlugin;
 import com.loficostudios.melodyapi.gui.events.GuiCloseEvent;
 import com.loficostudios.melodyapi.gui.events.GuiIconClickEvent;
@@ -18,10 +23,17 @@ import com.loficostudios.melodyapi.gui.interfaces.IGui;
 
 import com.loficostudios.melodyapi.utils.Cooldown;
 import com.loficostudios.melodyapi.utils.SimpleCooldown;
+=======
+import com.loficostudios.melodyapi.annotations.Property;
+import com.loficostudios.melodyapi.gui.events.GuiCloseEvent;
+import com.loficostudios.melodyapi.gui.events.GuiIconClickEvent;
+import com.loficostudios.melodyapi.gui.events.GuiOpenEvent;
+>>>>>>> Stashed changes
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+<<<<<<< Updated upstream
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -50,10 +62,45 @@ public class GuiManager implements Listener {
         if (gui == null && openedMenus.containsKey(uuid))
             this.openedMenus.remove(uuid);
         this.openedMenus.put(uuid, gui);
+=======
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+public class GuiManager implements Listener {
+
+    @Property
+    private static GuiManager instance;
+
+    public static GuiManager instance() {
+        return instance;
+    }
+
+    private final Map<UUID, MelodyGui> playerData = new HashMap<>();
+
+    public GuiManager() {
+        if (instance != null)
+            throw new IllegalArgumentException("Instantiating GUIManager instance twice!");
+        instance = this;
+    }
+
+    public MelodyGui getGui(@NotNull Player player) {
+        return this.playerData.get(player.getUniqueId());
+    }
+
+    public void setGui(@NotNull Player player, @NotNull MelodyGui gui) {
+        this.playerData.put(player.getUniqueId(), gui);
+>>>>>>> Stashed changes
     }
 
     @EventHandler
     protected void onClick(InventoryClickEvent e) {
+<<<<<<< Updated upstream
         if (e.isCancelled())
             return;
         if (!(e.getInventory().getHolder() instanceof IGui gui))
@@ -140,5 +187,56 @@ public class GuiManager implements Listener {
 
         var event = new GuiCloseEvent((player), gui);
         Bukkit.getPluginManager().callEvent(event);
+=======
+        Player player = (Player) e.getWhoClicked();
+
+        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
+
+        e.setCancelled(true);
+
+        MelodyGui gui = getGui(player);
+
+        GuiIcon icon = gui.getIcon(e.getRawSlot());
+
+        if (icon != null && icon.getAction() != null) {
+            icon.getAction().accept(e);
+            Bukkit.getPluginManager().callEvent(new GuiIconClickEvent(player, gui, icon));
+        }
+    }
+
+    @EventHandler
+    protected void onClose(InventoryCloseEvent e) {
+        Player player = (Player) e.getPlayer();
+
+        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
+
+        var gui = ((MelodyGui) e.getInventory());
+
+        var event = new GuiCloseEvent(player, gui);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            gui.open(player);
+        }
+
+        playerData.remove(player.getUniqueId());
+    }
+
+    @EventHandler
+    protected void onOpen(InventoryOpenEvent e) {
+        Player player = (Player) e.getPlayer();
+
+        if (!(e.getInventory().getHolder() instanceof MelodyGui)) return;
+        var gui = ((MelodyGui) e.getInventory());
+
+        var event = new GuiOpenEvent(player, gui);
+//
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            e.setCancelled(true);
+        }
+
+//        playerData.remove(player.getUniqueId());
+>>>>>>> Stashed changes
     }
 }
